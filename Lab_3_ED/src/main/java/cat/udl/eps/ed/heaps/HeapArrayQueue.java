@@ -1,13 +1,12 @@
 package cat.udl.eps.ed.heaps;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public class HeapArrayQueue<P extends Comparable<? super P>, V> implements PriorityQueue<P, V> {
-    private static final int INITAL_QUEUE_CAPACITY = 1;
+    private static final int INITIAL_QUEUE_CAPACITY = 1;
 
-    //El array de triples
-    private Triple<P, V>[] triples;
+    //El array de triplets
+    private Triplet<P, V>[] triplets;
 
     //Numero d'elements reals en el heap (sense contar root)
     private  int size = 0;
@@ -49,11 +48,8 @@ public class HeapArrayQueue<P extends Comparable<? super P>, V> implements Prior
             return Long.compare(other.timeStamp, this.timeStamp);
         }
     }
-
-    // =================================================================
+    
     // MÉTODOS PÚBLICOS DE LA INTERFAZ (Solo add y size te tocan a ti)
-    // =================================================================
-
     @Override
     public void add(P priority, V value) {
         // 1. Verificar capacidad y redimensionar si es necesario
