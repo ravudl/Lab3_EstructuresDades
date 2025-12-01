@@ -82,8 +82,9 @@ public class HeapArrayQueue<P extends Comparable<? super P>, V> implements Prior
         if (size == 0) {
             throw new NoSuchElementException();
         }
-            Triplet<P, V> root = (Triplet<P, V>) triplets[1];
-            triplets[1] = triplets[size];
+        V rootValue = element();
+
+        triplets[1] = triplets[size];
             triplets[size] = null;
             size--;
 
@@ -92,7 +93,7 @@ public class HeapArrayQueue<P extends Comparable<? super P>, V> implements Prior
             orderDown(1);
         }
 
-            return root.value();
+            return rootValue;
 
     }
 
