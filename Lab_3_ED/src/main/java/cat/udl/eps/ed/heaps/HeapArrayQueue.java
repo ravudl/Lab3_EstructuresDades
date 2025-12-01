@@ -23,50 +23,43 @@ public class HeapArrayQueue<P extends Comparable<? super P>, V> implements Prior
         triplets = (Triplet<P, V>[]) new Triplet[INITIAL_QUEUE_CAPACITY + 1];
     }
 
-    /**
-     * Record interno Triplet.
-     * Visibilidad de paquete para poder testearlo desde TripletTest.
-     */
+
     record Triplet<P extends Comparable<? super P>, V>(P priority, long timeStamp, V value)
             implements Comparable<Triplet<P, V>> {
 
         @Override
         public int compareTo(Triplet<P, V> other) {
-            // 1. Comparar prioridades manejando nulls
+            // Comparar prioritats
             if (this.priority == null && other.priority == null) return 0;
             if (this.priority == null) return -1; // null es la prioridad más baja
             if (other.priority == null) return 1;
-
             int cmp = this.priority.compareTo(other.priority);
 
             if (cmp != 0) {
                 return cmp;
             }
 
-            // 2. Si prioridades son iguales, desempate por timestamp (FIFO).
-            // En un MAX-Heap, queremos que el que llegó ANTES (menor timestamp)
-            // se considere "mayor" para que suba o se mantenga arriba.
-            // Por tanto, comparamos al revés: other vs this.
+            //Desempat per temps d'espera
             return Long.compare(other.timeStamp, this.timeStamp);
         }
     }
     
-    // MÉTODOS PÚBLICOS DE LA INTERFAZ (Solo add y size te tocan a ti)
+    // Mètodes de l'interfaz
     @Override
     public void add(P priority, V value) {
-        // 1. Verificar capacidad y redimensionar si es necesario
+        //Verificació de capacitat i redimenció si cal.
         if (size + 1 >= triplets.length) {
             resize();
         }
 
-        // 2. Crear el nuevo triplete
+        // Crear el nou triplet
         Triplet<P, V> newTriplet = new Triplet<>(priority, nextTimeStamp++, value);
 
-        // 3. Insertar al final del heap (siguiente posición disponible)
+        //Insertar el final de heap.
         size++;
         triplets[size] = newTriplet;
 
-        // 4. Restaurar la propiedad de Max-Heap (burbujeo hacia arriba)
+        //Max-Heap
         siftUp(size);
     }
 
@@ -131,31 +124,26 @@ public class HeapArrayQueue<P extends Comparable<? super P>, V> implements Prior
     }
 
 
-            // MÉTODOS PRIVADOS / AUXILIARES=
-    /**
-     * Dobla el tamaño del array copiando los elementos existentes.
-     */
+    //Mètodes Auxiliars
+    //Dobla la dimensió de l'abre
     private void resize() {
         // System.arraycopy o Arrays.copyOf pueden usarse.
         triplets = Arrays.copyOf(triplets, triplets.length * 2);
     }
 
-    /**
-     * Reordena el heap subiendo el elemento en 'k' hasta que cumpla la propiedad de heap.
-     */
     private void siftUp(int k) {
-        // Mientras no sea la raíz (índice 1) y sea mayor que su padre
+        // Busca de arrel (root) o major que l'arrel
         while (k > 1) {
             int pIndex = parentIndex(k);
             Triplet<P, V> current = triplets[k];
             Triplet<P, V> parent = triplets[pIndex];
 
-            // Si el hijo es mayor que el padre, intercambiamos
+            // Fill major que pare
             if (current.compareTo(parent) > 0) {
                 swap(k, pIndex);
-                k = pIndex; // Subimos el índice para la siguiente iteración
+                k = pIndex; //Pujem el valor en l'abre
             } else {
-                break; // El orden es correcto, terminamos
+                break; // En cas correcte surtim
             }
         }
     }
@@ -166,7 +154,7 @@ public class HeapArrayQueue<P extends Comparable<? super P>, V> implements Prior
         triplets[j] = temp;
     }
 
-    // MÉTODOS DE ÍNDICES (Visibilidad de paquete para testing)
+    // Mètodes d'index (per a test)
     static int parentIndex(int i) {
         return i / 2;
     }
