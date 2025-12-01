@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class HeapArrayQueueTest {
     @Test
-    public void testCompareToDifferentPriorities() {
+    void testCompareToDifferentPriorities() {
         var t1 = new HeapArrayQueue.Triplet<>(10, 1L, "Low");
         var t2 = new HeapArrayQueue.Triplet<>(20, 2L, "High");
 
@@ -18,7 +18,7 @@ public class HeapArrayQueueTest {
     }
 
     @Test
-    public void testCompareToEqualPrioritiesCheckFIFO() {
+    void testCompareToEqualPrioritiesCheckFIFO() {
         // Misma prioridad, t1 llegó antes (timestamp 1) que t2 (timestamp 2)
         var t1 = new HeapArrayQueue.Triplet<>(10, 1L, "First");
         var t2 = new HeapArrayQueue.Triplet<>(10, 2L, "Second");
@@ -30,7 +30,7 @@ public class HeapArrayQueueTest {
     }
 
     @Test
-    public void testCompareToNulls() {
+    void testCompareToNulls() {
         var tNormal = new HeapArrayQueue.Triplet<>(10, 1L, "A");
         var tNull = new HeapArrayQueue.Triplet<>((Integer)null, 2L, "B");
         var tNull2 = new HeapArrayQueue.Triplet<>((Integer)null, 3L, "C");
@@ -51,7 +51,7 @@ public class HeapArrayQueueTest {
 
 
     @Test
-    public void removeReturnsMaxInOrder() {
+    void removeReturnsMaxInOrder() {
         // Tests that remove() returns elements in correct max-heap order
         var heap = new HeapArrayQueue<Integer, String>();
         heap.add(10, "Low");
