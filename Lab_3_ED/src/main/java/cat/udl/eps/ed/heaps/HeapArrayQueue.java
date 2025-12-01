@@ -1,6 +1,8 @@
 package cat.udl.eps.ed.heaps;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
+
 
 public class HeapArrayQueue<P extends Comparable<? super P>, V> implements PriorityQueue<P, V> {
     private static final int INITIAL_QUEUE_CAPACITY = 1;
@@ -75,11 +77,60 @@ public class HeapArrayQueue<P extends Comparable<? super P>, V> implements Prior
 
     // (Los métodos remove() y element() los implementará tu compañero)
     @Override
-    public V remove() { throw new UnsupportedOperationException("To be implemented by Persona 2"); }
-    @Override
-    public V element() { throw new UnsupportedOperationException("To be implemented by Persona 2"); }
+    public V remove() {
 
-    // MÉTODOS PRIVADOS / AUXILIARES=
+        if (size == 0) {
+            throw new NoSuchElementException();
+        }
+            Triplet<P, V> root = (Triplet<P, V>) triplets[1];
+            triplets[1] = triplets[size];
+            triplets[size] = null;
+            size--;
+
+
+        if (size > 0) {
+            orderDown(1);
+        }
+
+            return root.value();
+
+    }
+
+
+    @Override
+    public V element() {
+        if (size == 0) {
+            throw new NoSuchElementException("Heap is empty");
+        }
+        return triplets[1].value();
+    }
+
+    private void orderDown(int k) {
+
+        while (true) {
+            int left = leftIndex(k);
+            int right = rightIndex(k);
+            int largest = k;
+
+
+            if (exists(left) && triplets[left].compareTo(triplets[largest]) > 0) {
+                largest = left;
+            }
+
+            if (exists(right) && triplets[right].compareTo(triplets[largest]) > 0) {
+                largest = right;
+            }
+            if (largest != k) {
+                swap(k, largest);
+                k = largest;
+            } else {
+                break;                      // look again alia
+            }
+        }
+    }
+
+
+            // MÉTODOS PRIVADOS / AUXILIARES=
     /**
      * Dobla el tamaño del array copiando los elementos existentes.
      */
@@ -132,4 +183,3 @@ public class HeapArrayQueue<P extends Comparable<? super P>, V> implements Prior
     }
 
 }
-//ara faig
