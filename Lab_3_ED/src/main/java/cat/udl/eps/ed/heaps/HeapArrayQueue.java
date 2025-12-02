@@ -68,7 +68,7 @@ public class HeapArrayQueue<P extends Comparable<? super P>, V> implements Prior
         return size;
     }
 
-    // (Los métodos remove() y element() los implementará tu compañero)
+
     @Override
     public V remove() {
 
@@ -77,11 +77,12 @@ public class HeapArrayQueue<P extends Comparable<? super P>, V> implements Prior
         }
         V rootValue = element();
 
+        //Cambiamos el primero por el ultimo, i eliminamos el ultimo.
         triplets[1] = triplets[size];
             triplets[size] = null;
             size--;
 
-
+        //Se vuelve a poner orden seguiendo la normativa de Heap
         if (size > 0) {
             orderDown(1);
         }
@@ -106,19 +107,20 @@ public class HeapArrayQueue<P extends Comparable<? super P>, V> implements Prior
             int right = rightIndex(k);
             int largest = k;
 
-
+            // Comparamos que el lado ezquierdo no sea mayor, en caso de serlo intercambiamos.
             if (exists(left) && triplets[left].compareTo(triplets[largest]) > 0) {
                 largest = left;
             }
-
+            // Repetimos lo mismo para la derecha.
             if (exists(right) && triplets[right].compareTo(triplets[largest]) > 0) {
                 largest = right;
             }
+            //el intercambio
             if (largest != k) {
                 swap(k, largest);
                 k = largest;
             } else {
-                break;                      // look again alia
+                break;
             }
         }
     }
