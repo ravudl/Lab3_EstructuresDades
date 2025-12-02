@@ -3,10 +3,21 @@ package cat.udl.eps.ed.heaps;
 
 
 import org.junit.jupiter.api.Test;
+
+import java.util.NoSuchElementException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class HeapArrayQueueTest {
+
+    @Test
+    void testOnEmptyHeap() {
+        var heap = new HeapArrayQueue<Integer, String>();
+        assertEquals(heap.size(), 0);
+    }
+
+
     @Test
     void testCompareToDifferentPriorities() {
         var t1 = new HeapArrayQueue.Triplet<>(10, 1L, "Low");
@@ -43,37 +54,65 @@ public class HeapArrayQueueTest {
         assertEquals(0, tNull.compareTo(tNull2));
     }
 
-    @Test
-    void removeAndElementThrowOnEmptyHeap() {
-        // Tests that calling remove() or element() on empty heap throws exception
-
-    }
-
 
     @Test
-    void removeReturnsMaxInOrder() {
-        // Tests that remove() returns elements in correct max-heap order
-        var heap = new HeapArrayQueue<Integer, String>();
-        heap.add(10, "Low");
-        heap.add(30, "High");
-        heap.add(20, "Mid");
+    void testOnElement() {
 
-        assertEquals("High", heap.remove());
-        assertEquals("Mid", heap.remove());
-        assertEquals("Low", heap.remove());
-    }
-
-    @Test
-    void elementReturnsRootWithoutRemoving() {
-        // Tests that element() returns the root value without removing it
+        // Comprovamos que obtenemos el valor de la raiz con element()
         var heap = new HeapArrayQueue<Integer, String>();
         heap.add(5, "A");
         heap.add(15, "B");
 
-        assertEquals("B", heap.element()); // max element
-        assertEquals(2, heap.size());     // size should not change
+        assertEquals("B", heap.element()); // el elemento mas grande, la raiz
+        assertEquals(2, heap.size());     // sigue mediendo lo mismo
+    }
+
+    @Test
+    void testOnRemoveWithDifferentPriority() {
+
+        var heap = new HeapArrayQueue<Integer, String>();
+
+        heap.add(10, "Low");
+        heap.add(30, "High");
+        heap.add(20, "Mid");
+
+        // Eliminamos primero el de mayor prioridad
+
+        assertEquals("High", heap.remove());
+        assertEquals(2, heap.size());
+
+        assertEquals("Mid", heap.remove());
+        assertEquals(1, heap.size());
+
+        assertEquals("Low", heap.remove());
+        assertEquals(0, heap.size());
+
+    }
+
+    @Test
+    void testOnRemoveWithSamePriority() {
+
+        var heap = new HeapArrayQueue<Integer, String>();
+
+
+        heap.add(10, "First");
+        heap.add(10, "Second");
+        heap.add(10, "Third");
+
+        //El primero en haber llegado se elimina primero.
+        assertEquals("First", heap.remove());
+        assertEquals(2, heap.size());
+
+        assertEquals("Second", heap.remove());
+        assertEquals(1, heap.size());
+
+        assertEquals("Third", heap.remove());
+        assertEquals(0, heap.size());
     }
 
 
-
 }
+
+
+
+
