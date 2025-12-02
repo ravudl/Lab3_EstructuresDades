@@ -99,7 +99,7 @@ public class HeapArrayQueueTest {
         heap.add(10, "Second");
         heap.add(10, "Third");
 
-        //El primero en haber llegado se elimina primero.
+        //El primero en haber llegado se elimina primero, y asi hasta al final.
         assertEquals("First", heap.remove());
         assertEquals(2, heap.size());
 
