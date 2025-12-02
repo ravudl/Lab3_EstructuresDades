@@ -4,12 +4,11 @@ package cat.udl.eps.ed.heaps;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class HeapArrayQueueTest {
+class HeapArrayQueueTest {
 
     @Test
     void testOnEmptyHeap() {
@@ -108,6 +107,23 @@ public class HeapArrayQueueTest {
 
         assertEquals("Third", heap.remove());
         assertEquals(0, heap.size());
+    }
+
+    @Test
+    void testResize(){
+        var heap = new HeapArrayQueue<Integer, String>();
+
+        int n = 180;
+        for(int i = 0; i < n; i++){
+            heap.add(i, "Value" + i);
+        }
+
+        assertEquals(n, heap.size(), "La cua hauria de tindre " + n + " elements després del resize");
+
+        // El elemento con la máxima prioridad es el último que se añadió en el bucle
+        assertEquals("Value179", heap.element(), "Després de fer resize, l'arrel ha de ser correcte.");
+
+
     }
 
 

@@ -18,8 +18,6 @@ public class HeapArrayQueue<P extends Comparable<? super P>, V> implements Prior
 
     @SuppressWarnings("unchecked")
     public HeapArrayQueue() {
-        // Creamos un array de tamaño INITIAL_QUEUE_CAPACITY + 1
-        // para respetar que el índice 0 no se usa.
         triplets = (Triplet<P, V>[]) new Triplet[INITIAL_QUEUE_CAPACITY + 1];
     }
 
